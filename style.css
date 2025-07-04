@@ -1,0 +1,495 @@
+:root {
+    --bg-color: #152046;
+    --text-color: #96a4d3;
+    --accent-color: #aa8f76;
+    --secondary-color: #27335f;
+    --placeholder-color: #535b76;
+}
+
+[data-theme="light"] {
+    --bg-color: #f0f2f5;
+    --text-color: #5d719a;
+    --accent-color: #d29c1e89;
+    --secondary-color: #a1b4d6;
+    --placeholder-color: #4b5361;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    padding: 20px;
+    background-color: var(--bg-color);
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    line-height: 1.6;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: var(--secondary-color);
+    border: none;
+    color: var(--text-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+/* Contact Icons - Fixed Top Right */
+#contact {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px;
+    z-index: 100;
+}
+
+#contact a i {
+    color: var(--text-color);
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+#contact a i:hover {
+    color: var(--accent-color);
+    transform: translateY(-3px);
+}
+
+/* Navigation */
+#nav-bar {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+    margin-top: 40px;
+    padding-top: 20px;
+}
+
+.nav-links {
+    display: none;
+    gap: 25px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#nav-bar a {
+    text-decoration: none;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    position: relative;
+    font-size: 1.1rem;
+}
+
+#nav-bar a:hover {
+    color: var(--accent-color);
+}
+
+#nav-bar a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--accent-color);
+    transition: width 0.3s ease;
+}
+
+#nav-bar a:hover::after {
+    width: 100%;
+}
+
+/* Hamburger Menu */
+.hamburger {
+    font-size: 30px;
+    color: var(--text-color);
+    cursor: pointer;
+    display: block !important;
+    background: none;
+    border: none;
+    padding: 0;
+    z-index: 101;
+    transition: all 0.3s ease;
+}
+
+.hamburger:hover {
+    color: var(--accent-color);
+    transform: rotate(90deg);
+}
+
+/* Mobile Menu */
+.nav-links.active {
+    display: flex !important;
+    flex-direction: column;
+    background-color: var(--bg-color);
+    position: fixed;
+    top: 10px;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    padding: 80px 20px 20px;
+    box-sizing: border-box;
+    z-index: 99;
+    gap: 25px;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Sections */
+section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Home Section */
+#home {
+    color: var(--accent-color);
+    text-align: center;
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+#home h1 {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+#home h1 span {
+    display: block;
+    margin-top: 15px;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    color: var(--text-color);
+}
+
+#home a button{
+    background-color: var(--secondary-color);
+    color: var(--accent-color);
+    width: 180px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    margin-top: 30px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-decoration: none;
+}
+
+#home button:hover {
+    background-color: var(--accent-color);
+    color: var(--secondary-color);
+    transform: translateY(-3px);
+}
+
+/* About Section */
+#about h2 {
+    color: var(--accent-color);
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+#about p {
+    color: var(--text-color);
+    line-height: 1.8;
+    text-align: justify;
+}
+
+/* Projects Section */
+#projects h2 {
+    color: var(--accent-color);
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    padding: 20px 0;
+}
+
+.box {
+    background-color: var(--secondary-color);
+    padding: 25px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    min-height: 220px;
+}
+
+.box h3 {
+    color: var(--accent-color);
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.box p {
+    color: var(--text-color);
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.project-links {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.box a {
+    color: var(--text-color);
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.box a:hover {
+    color: var(--accent-color);
+    transform: scale(1.2);
+}
+
+.box:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+
+
+/* Blog Section */
+#comments h2 {
+    color: var(--accent-color);
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.comment-contains {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.card {
+    background-color: var(--secondary-color);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.card textarea {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-radius: 8px;
+    width: 100%;
+    min-height: 150px;
+    border: 2px solid var(--accent-color);
+    padding: 15px;
+    margin-bottom: 20px;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.card textarea:focus {
+    outline: none;
+    border-color: var(--text-color);
+}
+
+.card textarea::placeholder {
+    color: var(--placeholder-color);
+    opacity: 0.8;
+}
+
+.card button {
+    background-color: var(--accent-color);
+    color: var(--secondary-color);
+    border: none;
+    border-radius: 8px;
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    float: right;
+}
+
+.card button:hover {
+    background-color: var(--text-color);
+    transform: translateY(-2px);
+}
+
+/* Footer */
+.footer {
+    margin-top: 80px;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.footer p {
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+/* Scroll to Top Button */
+.scroll-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: var(--accent-color);
+    color: var(--secondary-color);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 99;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.scroll-top.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.scroll-top:hover {
+    transform: translateY(-5px) scale(1.1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+    
+    #contact {
+        top: 15px;
+        right: 15px;
+        gap: 12px;
+    }
+    
+    #contact a i {
+        font-size: 1.3rem;
+    }
+    
+    #nav-bar {
+        margin-top: 30px;
+    }
+    
+    section {
+        padding: 30px 15px;
+    }
+    
+    .container {
+        grid-template-columns: 1fr;
+    }
+    
+    #home {
+        min-height: 60vh;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    
+    #contact {
+        top: 10px;
+        right: 10px;
+        gap: 10px;
+    }
+    
+    #contact a i {
+        font-size: 1.1rem;
+    }
+    
+    .hamburger {
+        font-size: 25px;
+    }
+    
+    #home h1 {
+        font-size: 2rem;
+    }
+    
+    #home h1 span {
+        font-size: 1.4rem;
+    }
+    
+    #home button {
+        width: 160px;
+        padding: 10px;
+    }
+    
+    .box {
+        min-height: 200px;
+        padding: 20px;
+    }
+    
+    .card {
+        padding: 20px;
+    }
+    
+    .card button {
+        width: 100%;
+        float: none;
+    }
+    
+    .scroll-top {
+        width: 40px;
+        height: 40px;
+        bottom: 20px;
+        right: 20px;
+    }
+}
