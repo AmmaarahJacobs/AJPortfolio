@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ammaarah's Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<!--Contact-->
+    <div id="contact">
+        <a href="https://www.instagram.com/a.j.technologies?igsh=eHRzdWNvc3UxOTN0 "><i class="fab fa-instagram"></i></a>
+        <a href="https://github.com/AmmaarahJacobs"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/ammaarah-jacobs-5aa51a232"><i class="fab fa-linkedin"></i></a>
+    </div>    
+
+    <!--Navbar-->
+    <nav id="nav-bar">
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <ul class="nav-links" id="menu">
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#comments">Insights</a></li>
+        </ul>
+    </nav>
+
+    <!--Home-->    
+    <section id="home">
+        <h1>Hello World! <span>Ammaarah Jacobs here...</span></h1>
+        <a href="img/AmmaarahCV.pdf" download class="cv" >Download CV</a>
+    </section>
+
+    <!--About-->
+    <section id="about">
+        <h2>_About</h2>
+        <p>I'm a passionate Software Engineering student at Eduvos, driven by curiosity and creativity in solving real-world problems through technology. I hold an NQF Level 5 certification in Systems Development, which has equipped me with strong foundational skills in programming, databases, and software architecture. To complement my technical knowledge, I have also completed the Google UX Design Certification, allowing me to build user-centered applications that are both functional and engaging. My goal is to merge software development and design thinking to create intuitive digital solutions that make a positive impact. I'm currently exploring projects in AI, voice-based technology, and accessible design to help those with disabilities — always learning, building, and pushing boundaries.</p>
+    </section>
+
+    <!--Projects-->
+    <section id="projects">
+        <h2>_Projects</h2>
+        <div class="container">
+            <div class="box">
+                <h3>PacMan Game</h3>
+                <p>A Java implementation of the classic PacMan arcade game featuring authentic gameplay mechanics, and score tracking. Developed using object-oriented principles to demonstrate game development fundamentals.</p>
+                <div class="project-links">
+                    <a href="https://github.com/AmmaarahJacobs/Pacman"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="box">
+                <h3>Notes App</h3>
+                <p>A responsive web application built with HTML, CSS, and JavaScript that allows users to create, and delete notes directly in their browser. It features a clean, intuitive UI.</p>
+                <div class="project-links">
+                    <a href="https://github.com/AmmaarahJacobs/notesApp"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="box">
+                <h3>Login Form</h3>
+                <p>A modern, accessible login interface developed with HTML5, CSS3, and JavaScript. Includes form validation, responsive design, and smooth animations while adhering to security best practices.</p>
+                <div class="project-links">
+                    <a href="https://github.com/AmmaarahJacobs/loginForm"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="box">
+                <h3>Inventory Management System</h3>
+                <p>A Java-based inventory tracking solution with CRUD functionality for product management. Features include product monitoring, adding prices and quantities, deleting and updating capabilities, and a display table for all the products.</p>
+                <div class="project-links">
+                    <a href="https://github.com/AmmaarahJacobs/InventoryManagementSystem"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="box">
+                <h3>Insurance Management System</h3>
+                <p>A comprehensive Java and MySQL application for managing insurance policies across multiple categories (life, auto, health). Features policy creation, client management, and database integration with JDBC.</p>
+                <div class="project-links">
+                    <a href="https://github.com/AmmaarahJacobs/InsuranceManagementSystem"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="box">
+                <h3>Bakery Website</h3>
+                <p>A responsive e-commerce website for a bakery business built with modern frontend technologies. Features a mobile-first design principle for optimal user experience across devices.</p>
+                <div class="project-links">
+                    <a href="https://github.com/AmmaarahJacobs/BakeryWebsite"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--insights-->
+    <section id="comments">
+        <h2>_Insights</h2>
+        <div class="comment-contains">
+            <div class="card">
+                <textarea type="text" placeholder="Ask me a question..."></textarea>
+                <a href="https://wa.me/0748361519"><button>Send</button></a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>Ammaarah Jacobs &copy; 2025</p>
+    </footer>
+
+    <script>
+        /*function toggleMenu(){
+           document.getElementById("menu").classList.toggle("active")
+            // Toggle mobile menu
+           document.getElementById('hamburgerBtn').addEventListener('click', function() {
+                document.getElementById('navLinks').classList.toggle('active');
+            });
+        }*/
+
+        // Theme Toggle
+        const themeToggle = document.createElement('button');
+        themeToggle.className = 'theme-toggle';
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        document.body.prepend(themeToggle);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            themeToggle.innerHTML = newTheme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Set initial theme
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        themeToggle.innerHTML = savedTheme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+
+        // Scroll animations
+        const sections = document.querySelectorAll('#home, #about, #projects, #comments');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Scroll to top button
+        const scrollTopBtn = document.createElement('div');
+        scrollTopBtn.className = 'scroll-top';
+        scrollTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+        document.body.appendChild(scrollTopBtn);
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('active');
+            } else {
+                scrollTopBtn.classList.remove('active');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // WhatsApp message sending
+        document.querySelector('.card button').addEventListener('click', function() {
+            const textarea = document.querySelector('.card textarea');
+            const message = encodeURIComponent(textarea.value);
+            if (message.trim() !== '') {
+                window.open(`https://wa.me/27748361519?text=${message}`, '_blank');
+                textarea.value = '';
+            } else {
+                alert('Please enter a message before sending');
+            }
+        });
+
+        // Improved menu toggle
+        function toggleMenu() {
+            document.getElementById("menu").classList.toggle("active");
+            document.body.classList.toggle("menu-open");
+        }
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById("menu").classList.remove("active");
+                document.body.classList.remove("menu-open");
+            });
+        });
+    </script>
+</body>
+</html>
