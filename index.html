@@ -1,195 +1,592 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="google-site-verification" content="oX3OJlXcUFuLSA8K98OfnRc7bUaylB6_KsKu2X0uJOY" />
     <title>Ammaarah's Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --bg:       #0b0c14;
+            --bg2:      #0f1020;
+            --surface:  #13152a;
+            --surface2: #1a1d35;
+            --border:   rgba(255,255,255,0.06);
+            --accent:   #ff79c6;
+            --accent2:  #bd93f9;
+            --accent3:  #50fa7b;
+            --text:     #f0eeff;
+            --muted:    #7b7fa8;
+            --card-bg:  #111326;
+            --glow-a:   rgba(189,147,249,0.15);
+            --glow-b:   rgba(255,121,198,0.10);
+        }
+        [data-theme="light"] {
+            --bg:       #f7f5ff;
+            --bg2:      #eeebff;
+            --surface:  #ffffff;
+            --surface2: #f0edff;
+            --border:   rgba(0,0,0,0.07);
+            --accent:   #d63fa6;
+            --accent2:  #7c3aed;
+            --accent3:  #059669;
+            --text:     #1a1030;
+            --muted:    #8878b0;
+            --card-bg:  #ffffff;
+            --glow-a:   rgba(124,58,237,0.08);
+            --glow-b:   rgba(214,63,166,0.07);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background 0.4s, color 0.4s;
+        }
+
+        .bg-glow {
+            position: fixed; inset: 0; pointer-events: none; z-index: 0;
+            background:
+                radial-gradient(ellipse 60% 55% at 75% 8%,  var(--glow-a) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 40% at 15% 80%, var(--glow-b) 0%, transparent 65%);
+        }
+
+        .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+        .star {
+            position: absolute; font-size: 10px; color: var(--accent2);
+            opacity: 0; animation: twinkle var(--dur, 3s) ease-in-out var(--del, 0s) infinite;
+        }
+        @keyframes twinkle {
+            0%,100% { opacity:0; transform:scale(0.5); }
+            50%      { opacity:0.6; transform:scale(1.2); }
+        }
+
+        .cursor-dot {
+            position: fixed; width: 8px; height: 8px;
+            background: var(--accent); pointer-events: none; z-index: 9999;
+            transform: translate(-50%,-50%); transition: transform 0.1s;
+        }
+
+        /* THEME TOGGLE */
+        .theme-toggle {
+            position: fixed; top: 1rem; right: 1rem; z-index: 1000;
+            background: var(--surface2); border: 1px solid var(--border);
+            color: var(--accent); width: 2.6rem; height: 2.6rem;
+            border-radius: 0.5rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem; transition: all 0.25s;
+            box-shadow: 3px 3px 0 var(--accent2);
+        }
+        .theme-toggle:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--accent2); }
+
+        /* SOCIAL SIDEBAR */
+        #contact {
+            position: fixed; left: 1.2rem; top: 50%;
+            transform: translateY(-50%);
+            z-index: 100; display: flex; flex-direction: column;
+            gap: 0.9rem; align-items: center;
+        }
+        #contact::before, #contact::after {
+            content: ''; display: block; width: 1px; height: 50px;
+            background: linear-gradient(to bottom, transparent, var(--muted));
+            margin: 0 auto;
+        }
+        #contact::after { background: linear-gradient(to top, transparent, var(--muted)); }
+        #contact a {
+            color: var(--muted); font-size: 1rem; text-decoration: none;
+            transition: all 0.25s; display: flex; align-items: center;
+            justify-content: center; width: 2rem; height: 2rem; border-radius: 0.4rem;
+        }
+        #contact a:hover { color: var(--accent); background: var(--surface2); transform: translateY(-2px); }
+
+        /* NAVBAR */
+        #nav-bar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+            padding: 0.9rem 2rem;
+            display: flex; align-items: center; justify-content: center;
+            backdrop-filter: blur(18px);
+            background: rgba(11,12,20,0.7);
+            border-bottom: 1px solid var(--border);
+        }
+        [data-theme="light"] #nav-bar { background: rgba(247,245,255,0.75); }
+
+        .nav-brand {
+            position: absolute; left: 2rem;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.65rem; color: var(--accent); letter-spacing: 0.05em;
+        }
+        .nav-links { list-style: none; display: flex; gap: 2rem; }
+        .nav-links a {
+            color: var(--muted); text-decoration: none;
+            font-weight: 700; font-size: 0.8rem; letter-spacing: 0.06em;
+            transition: color 0.25s; position: relative; padding-bottom: 2px;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -2px; left: 0;
+            width: 0; height: 2px; background: var(--accent);
+            border-radius: 2px; transition: width 0.3s;
+        }
+        .nav-links a:hover { color: var(--text); }
+        .nav-links a:hover::after { width: 100%; }
+
+        .hamburger {
+            display: none; font-size: 1.3rem; cursor: pointer;
+            color: var(--text); position: absolute; left: 1.2rem;
+        }
+
+        /* SECTIONS */
+        section {
+            position: relative; z-index: 1;
+            padding: 6rem 4rem 5rem 6rem;
+            max-width: 1120px; margin: 0 auto;
+            opacity: 0; transform: translateY(28px);
+            transition: opacity 0.65s ease, transform 0.65s ease;
+        }
+        section.visible { opacity: 1; transform: translateY(0); }
+
+        /* HOME */
+        #home {
+            min-height: 100vh;
+            display: flex; flex-direction: column; justify-content: center;
+            padding-top: 4rem;
+        }
+
+        .home-eyebrow {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 2rem; padding: 0.35rem 1rem;
+            font-size: 0.72rem; font-weight: 700; color: var(--accent2);
+            letter-spacing: 0.08em; margin-bottom: 1.6rem;
+        }
+        .home-eyebrow .dot {
+            width: 6px; height: 6px; background: var(--accent3);
+            border-radius: 50%; animation: blink 1.5s ease-in-out infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+        #home h1 {
+            font-family: 'Press Start 2P', monospace;
+            font-size: clamp(1rem, 3vw, 2rem);
+            line-height: 1.75; color: var(--text);
+            margin-bottom: 1.2rem; max-width: 680px;
+        }
+        #home h1 .highlight {
+            color: var(--accent);
+            text-shadow: 0 0 20px rgba(255,121,198,0.4);
+        }
+
+        #home p.home-sub {
+            font-size: 1rem; font-weight: 600; color: var(--muted);
+            max-width: 440px; line-height: 1.75; margin-bottom: 2.5rem;
+        }
+
+        .cv {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.8rem 1.8rem;
+            background: var(--accent); color: #0b0c14;
+            font-family: 'Nunito', sans-serif; font-weight: 800;
+            font-size: 0.85rem; text-decoration: none;
+            border-radius: 0.5rem; border: none;
+            box-shadow: 4px 4px 0 var(--accent2);
+            transition: all 0.2s;
+        }
+        .cv:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--accent2); }
+
+        .home-badges { display: flex; gap: 1rem; margin-top: 3rem; flex-wrap: wrap; }
+        .badge {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 1rem; padding: 1rem 1.4rem;
+            box-shadow: 3px 3px 0 var(--border);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .badge:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--accent2); }
+        .badge-num {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1.2rem; color: var(--accent2); line-height: 1;
+        }
+        .badge-label { font-size: 0.7rem; font-weight: 700; color: var(--muted); margin-top: 0.3rem; }
+
+        /* SECTION HEADING */
+        .section-label {
+            display: flex; align-items: center; gap: 0.6rem;
+            font-size: 0.68rem; font-weight: 800; letter-spacing: 0.2em;
+            color: var(--accent); text-transform: uppercase; margin-bottom: 0.8rem;
+        }
+        .section-label::before { content: '◆'; font-size: 0.5rem; color: var(--accent2); }
+
+        h2 {
+            font-family: 'Press Start 2P', monospace;
+            font-size: clamp(0.9rem, 2.2vw, 1.5rem);
+            color: var(--text); margin-bottom: 2.5rem; line-height: 1.7;
+        }
+        h2 em { font-style: normal; color: var(--accent); }
+
+        .section-divider {
+            border: none; border-top: 1px solid var(--border);
+            margin: 0; position: relative; z-index: 1;
+        }
+
+        /* ABOUT */
+        #about { padding-top: 5rem; }
+        .about-grid { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 4rem; align-items: start; }
+        .about-text { font-size: 0.92rem; font-weight: 600; line-height: 1.9; color: var(--muted); }
+        .about-text strong { color: var(--accent); font-weight: 800; }
+
+        .about-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+        .tag {
+            padding: 0.3rem 0.9rem;
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 2rem; font-size: 0.72rem; font-weight: 700;
+            color: var(--accent2); transition: all 0.2s;
+        }
+        .tag:hover { background: var(--accent2); color: var(--bg); border-color: var(--accent2); }
+
+        .about-right { display: flex; flex-direction: column; gap: 1.2rem; }
+        .stat-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 1rem; padding: 1.2rem 1.5rem;
+            box-shadow: 3px 3px 0 var(--border);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .stat-card:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--accent); }
+        .stat-card .num {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1.4rem; color: var(--accent2); line-height: 1;
+        }
+        .stat-card .lbl { font-size: 0.72rem; font-weight: 700; color: var(--muted); margin-top: 0.35rem; }
+
+        /* PROJECTS */
+        #projects { padding-top: 5rem; }
+        .container { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.2rem; }
+
+        .box {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 1.2rem; padding: 1.6rem;
+            transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+            position: relative; overflow: hidden;
+        }
+        .box::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            opacity: 0; transition: opacity 0.3s; border-radius: 3px 3px 0 0;
+        }
+        .box:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(0,0,0,0.35), 4px 4px 0 var(--accent2); border-color: rgba(189,147,249,0.2); }
+        .box:hover::before { opacity: 1; }
+
+        .box-num {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.55rem; color: var(--accent); margin-bottom: 0.9rem; opacity: 0.8;
+        }
+        .box h3 { font-size: 0.95rem; font-weight: 900; color: var(--text); margin-bottom: 0.6rem; }
+        .box p { font-size: 0.78rem; font-weight: 600; color: var(--muted); line-height: 1.75; margin-bottom: 1.2rem; }
+
+        .project-links { display: flex; gap: 0.6rem; }
+        .project-links a {
+            width: 2rem; height: 2rem; display: flex;
+            align-items: center; justify-content: center;
+            border: 1px solid var(--border); border-radius: 0.5rem;
+            color: var(--muted); text-decoration: none; font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        .project-links a:hover { border-color: var(--accent); color: var(--accent); background: var(--surface2); }
+
+        /* INSIGHTS */
+        #comments { padding-top: 5rem; }
+        .comment-contains { max-width: 560px; }
+        .insights-lead { font-size: 0.9rem; font-weight: 600; color: var(--muted); line-height: 1.8; margin-bottom: 1.8rem; }
+
+        .card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 1.2rem; padding: 1.5rem;
+            box-shadow: 4px 4px 0 var(--surface2);
+        }
+        .card textarea {
+            width: 100%; background: var(--bg2); border: 1px solid var(--border);
+            border-radius: 0.7rem; color: var(--text);
+            font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 600;
+            padding: 0.8rem 1rem; resize: none; height: 110px; outline: none;
+            transition: border-color 0.25s;
+        }
+        .card textarea::placeholder { color: var(--muted); }
+        .card textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,121,198,0.12); }
+        .card button {
+            margin-top: 1rem; padding: 0.75rem 1.8rem;
+            background: var(--accent); color: #0b0c14;
+            font-family: 'Nunito', sans-serif; font-size: 0.82rem; font-weight: 800;
+            border: none; border-radius: 0.5rem; cursor: pointer;
+            box-shadow: 4px 4px 0 var(--accent2); transition: all 0.2s;
+        }
+        .card button:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--accent2); }
+
+        footer.footer {
+            position: relative; z-index: 1;
+            text-align: center; padding: 2rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.72rem; font-weight: 700; color: var(--muted);
+        }
+        .pixel-heart { color: var(--accent); }
+
+        .scroll-top {
+            position: fixed; bottom: 2rem; right: 1.2rem; z-index: 100;
+            width: 2.5rem; height: 2.5rem;
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 0.5rem; color: var(--accent);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; opacity: 0; transform: translateY(10px);
+            transition: all 0.3s; font-size: 0.8rem;
+            box-shadow: 3px 3px 0 var(--accent2);
+        }
+        .scroll-top.active { opacity: 1; transform: translateY(0); }
+        .scroll-top:hover { background: var(--accent); color: var(--bg); transform: translate(-2px,-2px); }
+
+        @media (max-width: 768px) {
+            section { padding: 5rem 1.5rem 3rem 1.5rem; }
+            #home { padding-left: 1.5rem; }
+            #contact {
+                position: fixed; left: 0; right: 0; top: auto; bottom: 0;
+                transform: none; flex-direction: row; justify-content: center;
+                background: var(--surface); border-top: 1px solid var(--border);
+                padding: 0.7rem 1rem; gap: 2rem; z-index: 200;
+            }
+            #contact::before, #contact::after { display: none; }
+            .hamburger { display: block; }
+            .nav-links {
+                display: none; position: fixed;
+                top: 56px; left: 0; right: 0;
+                background: var(--bg); flex-direction: column;
+                align-items: center; gap: 0;
+                border-bottom: 1px solid var(--border); padding: 1rem 0; z-index: 400;
+            }
+            .nav-links.active { display: flex; }
+            .nav-links li { width: 100%; text-align: center; }
+            .nav-links a { display: block; padding: 0.9rem; }
+            .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .container { grid-template-columns: 1fr; }
+            .nav-brand { display: none; }
+            .cursor-dot { display: none; }
+        }
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .container { grid-template-columns: repeat(2,1fr); }
+        }
+    </style>
 </head>
 <body>
 
-<!--Contact-->
-    <div id="contact">
-        <a href="https://www.instagram.com/a.j.technologies?igsh=eHRzdWNvc3UxOTN0 "><i class="fab fa-instagram"></i></a>
-        <a href="https://github.com/AmmaarahJacobs"><i class="fab fa-github"></i></a>
-        <a href="https://www.linkedin.com/in/ammaarah-jacobs-5aa51a232"><i class="fab fa-linkedin"></i></a>
-    </div>    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YC2T2NKED9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-YC2T2NKED9');
+</script>
 
-    <!--Navbar-->
-    <nav id="nav-bar">
-        <div class="hamburger" onclick="toggleMenu()">☰</div>
-        <ul class="nav-links" id="menu">
-            <li><a href="#about">About</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#comments">Insights</a></li>
-        </ul>
-    </nav>
+<div class="bg-glow"></div>
+<div class="stars" id="stars"></div>
+<div class="cursor-dot" id="cursorDot"></div>
 
-    <!--Home-->    
-    <section id="home">
-        <h1>Hello World! <span>Ammaarah Jacobs here...</span></h1>
-        <a href="img/AmmaarahCV.pdf" download class="cv" >Download CV</a>
-    </section>
+<div id="contact">
+    <a href="https://www.instagram.com/a.j.technologies?igsh=eHRzdWNvc3UxOTN0" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    <a href="https://github.com/AmmaarahJacobs" aria-label="GitHub"><i class="fab fa-github"></i></a>
+    <a href="https://www.linkedin.com/in/ammaarah-jacobs-5aa51a232" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+</div>
 
-    <!--About-->
-    <section id="about">
-        <h2>_About</h2>
-        <p>I'm a passionate Software Engineering student at Eduvos, driven by curiosity and creativity in solving real-world problems through technology. I hold an NQF Level 5 certification in Systems Development, which has equipped me with strong foundational skills in programming, databases, and software architecture. To complement my technical knowledge, I have also completed the Google UX Design Certification, allowing me to build user-centered applications that are both functional and engaging. My goal is to merge software development and design thinking to create intuitive digital solutions that make a positive impact. I'm currently exploring projects in AI, voice-based technology, and accessible design to help those with disabilities — always learning, building, and pushing boundaries.</p>
-    </section>
+<nav id="nav-bar">
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <span class="nav-brand">AJ.</span>
+    <ul class="nav-links" id="menu">
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#comments">Insights</a></li>
+    </ul>
+</nav>
 
-    <!--Projects-->
-    <section id="projects">
-        <h2>_Projects</h2>
-        <div class="container">
-            <div class="box">
-                <h3>PacMan Game</h3>
-                <p>A Java implementation of the classic PacMan arcade game featuring authentic gameplay mechanics, and score tracking. Developed using object-oriented principles to demonstrate game development fundamentals.</p>
-                <div class="project-links">
-                    <a href="https://github.com/AmmaarahJacobs/Pacman"><i class="fab fa-github"></i></a>
-                </div>
-            </div>
-            <div class="box">
-                <h3>Notes App</h3>
-                <p>A responsive web application built with HTML, CSS, and JavaScript that allows users to create, and delete notes directly in their browser. It features a clean, intuitive UI.</p>
-                <div class="project-links">
-                    <a href="https://github.com/AmmaarahJacobs/notesApp"><i class="fab fa-github"></i></a>
-                </div>
-            </div>
-            <div class="box">
-                <h3>Login Form</h3>
-                <p>A modern, accessible login interface developed with HTML5, CSS3, and JavaScript. Includes form validation, responsive design, and smooth animations while adhering to security best practices.</p>
-                <div class="project-links">
-                    <a href="https://github.com/AmmaarahJacobs/loginForm"><i class="fab fa-github"></i></a>
-                </div>
-            </div>
-            <div class="box">
-                <h3>Inventory Management System</h3>
-                <p>A Java-based inventory tracking solution with CRUD functionality for product management. Features include product monitoring, adding prices and quantities, deleting and updating capabilities, and a display table for all the products.</p>
-                <div class="project-links">
-                    <a href="https://github.com/AmmaarahJacobs/InventoryManagementSystem"><i class="fab fa-github"></i></a>
-                </div>
-            </div>
-            <div class="box">
-                <h3>Insurance Management System</h3>
-                <p>A comprehensive Java and MySQL application for managing insurance policies across multiple categories (life, auto, health). Features policy creation, client management, and database integration with JDBC.</p>
-                <div class="project-links">
-                    <a href="https://github.com/AmmaarahJacobs/InsuranceManagementSystem"><i class="fab fa-github"></i></a>
-                </div>
-            </div>
-            <div class="box">
-                <h3>Bakery Website</h3>
-                <p>A responsive e-commerce website for a bakery business built with modern frontend technologies. Features a mobile-first design principle for optimal user experience across devices.</p>
-                <div class="project-links">
-                    <a href="https://github.com/AmmaarahJacobs/BakeryWebsite"><i class="fab fa-github"></i></a>
-                </div>
+<section id="home">
+    <div class="home-eyebrow">
+        <span class="dot"></span>
+        Software Engineer &amp; UX Designer
+    </div>
+    <h1>Hello World! ✨<br><span class="highlight">Ammaarah Jacobs</span><br>here...</h1>
+    <p class="home-sub">Building intuitive digital experiences at the intersection of engineering and design.</p>
+    <a href="img/AmmaarahJCV.pdf" download class="cv">
+        <i class="fas fa-download"></i> Download CV
+    </a>
+    <div class="home-badges">
+        <div class="badge"><div class="badge-num">6+</div><div class="badge-label">Projects</div></div>
+        <div class="badge"><div class="badge-num">2</div><div class="badge-label">Certifications</div></div>
+        <div class="badge"><div class="badge-num">NQF5</div><div class="badge-label">Systems Dev</div></div>
+    </div>
+</section>
+
+<hr class="section-divider">
+
+<section id="about">
+    <p class="section-label">01 / About me</p>
+    <h2>Who am <em>I?</em></h2>
+    <div class="about-grid">
+        <div>
+            <p class="about-text">
+                I'm a passionate <strong>Software Engineering student</strong> at Eduvos, driven by curiosity and creativity in solving real-world problems through technology. I hold an <strong>NQF Level 5 certification</strong> in Systems Development, which has equipped me with strong foundational skills in programming, databases, and software architecture.
+                <br><br>
+                I've also completed the <strong>Google UX Design Certification</strong>, allowing me to build user-centered applications that are both functional and engaging. My goal is to merge software development and design thinking to create intuitive digital solutions that make a positive impact.
+                <br><br>
+                Currently exploring <strong>AI, voice-based technology, and accessible design</strong> — always learning, building, and pushing boundaries. ✦
+            </p>
+            <div class="about-tags">
+                <span class="tag">Java</span>
+                <span class="tag">HTML / CSS / JS</span>
+                <span class="tag">MySQL</span>
+                <span class="tag">UX Design</span>
+                <span class="tag">AI</span>
+                <span class="tag">Accessibility</span>
             </div>
         </div>
-    </section>
-
-    <!--insights-->
-    <section id="comments">
-        <h2>_Insights</h2>
-        <div class="comment-contains">
-            <div class="card">
-                <textarea type="text" placeholder="Ask me a question..."></textarea>
-                <a href="https://wa.me/0748361519"><button>Send</button></a>
-            </div>
+        <div class="about-right">
+            <div class="stat-card"><div class="num">6+</div><div class="lbl">Projects Completed</div></div>
+            <div class="stat-card"><div class="num">2</div><div class="lbl">Certifications Earned</div></div>
+            <div class="stat-card"><div class="num">NQF 5</div><div class="lbl">Systems Development</div></div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <footer class="footer">
-        <p>Ammaarah Jacobs &copy; 2025</p>
-    </footer>
+<hr class="section-divider">
 
-    <script>
-        /*function toggleMenu(){
-           document.getElementById("menu").classList.toggle("active")
-            // Toggle mobile menu
-           document.getElementById('hamburgerBtn').addEventListener('click', function() {
-                document.getElementById('navLinks').classList.toggle('active');
-            });
-        }*/
+<section id="projects">
+    <p class="section-label">02 / Selected Work</p>
+    <h2>Featured <em>Projects</em></h2>
+    <div class="container">
+        <div class="box">
+            <div class="box-num">01</div>
+            <h3>PacMan Game</h3>
+            <p>A Java implementation of the classic PacMan arcade game featuring authentic gameplay mechanics and score tracking. Developed using object-oriented principles.</p>
+            <div class="project-links"><a href="https://github.com/AmmaarahJacobs/Pacman" aria-label="GitHub"><i class="fab fa-github"></i></a></div>
+        </div>
+        <div class="box">
+            <div class="box-num">02</div>
+            <h3>Notes App</h3>
+            <p>A responsive web application built with HTML, CSS, and JavaScript that allows users to create and delete notes directly in their browser with a clean, intuitive UI.</p>
+            <div class="project-links"><a href="https://github.com/AmmaarahJacobs/notesApp" aria-label="GitHub"><i class="fab fa-github"></i></a></div>
+        </div>
+        <div class="box">
+            <div class="box-num">03</div>
+            <h3>Login Form</h3>
+            <p>A modern, accessible login interface with HTML5, CSS3, and JavaScript. Includes form validation, responsive design, and smooth animations.</p>
+            <div class="project-links"><a href="https://github.com/AmmaarahJacobs/loginForm" aria-label="GitHub"><i class="fab fa-github"></i></a></div>
+        </div>
+        <div class="box">
+            <div class="box-num">04</div>
+            <h3>Inventory Management</h3>
+            <p>A Java-based inventory tracking solution with CRUD functionality. Features product monitoring, pricing, quantities, and a full display table.</p>
+            <div class="project-links"><a href="https://github.com/AmmaarahJacobs/InventoryManagementSystem" aria-label="GitHub"><i class="fab fa-github"></i></a></div>
+        </div>
+        <div class="box">
+            <div class="box-num">05</div>
+            <h3>Insurance Management</h3>
+            <p>A comprehensive Java and MySQL app for managing insurance policies across life, auto, and health categories. Features JDBC database integration.</p>
+            <div class="project-links"><a href="https://github.com/AmmaarahJacobs/InsuranceManagementSystem" aria-label="GitHub"><i class="fab fa-github"></i></a></div>
+        </div>
+        <div class="box">
+            <div class="box-num">06</div>
+            <h3>Bakery Website</h3>
+            <p>A responsive e-commerce website for a bakery business built with modern frontend technologies. Features a mobile-first design for optimal UX across devices.</p>
+            <div class="project-links"><a href="https://github.com/AmmaarahJacobs/BakeryWebsite" aria-label="GitHub"><i class="fab fa-github"></i></a></div>
+        </div>
+    </div>
+</section>
 
-        // Theme Toggle
-        const themeToggle = document.createElement('button');
-        themeToggle.className = 'theme-toggle';
-        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-        document.body.prepend(themeToggle);
+<hr class="section-divider">
 
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            themeToggle.innerHTML = newTheme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-            localStorage.setItem('theme', newTheme);
+<section id="comments">
+    <p class="section-label">03 / Connect</p>
+    <h2>Got a <em>question?</em></h2>
+    <div class="comment-contains">
+        <p class="insights-lead">Got a question, an idea, or just want to connect? Send me a message — I'd love to hear from you! 💌</p>
+        <div class="card">
+            <textarea placeholder="Ask me a question..."></textarea>
+            <button>Send via WhatsApp &nbsp;<i class="fab fa-whatsapp"></i></button>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>Made with <span class="pixel-heart">♥</span> by Ammaarah Jacobs &copy; 2025</p>
+</footer>
+
+<script>
+    /* PIXEL STARS */
+    const starsEl = document.getElementById('stars');
+    const starChars = ['✦','✧','★','✨','·','⋆'];
+    for (let i = 0; i < 28; i++) {
+        const s = document.createElement('span');
+        s.className = 'star';
+        s.textContent = starChars[Math.floor(Math.random() * starChars.length)];
+        s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;--dur:${2+Math.random()*4}s;--del:${Math.random()*5}s;font-size:${6+Math.random()*10}px;color:${Math.random()>0.5?'var(--accent)':'var(--accent2)'};`;
+        starsEl.appendChild(s);
+    }
+
+    /* PIXEL CURSOR */
+    const dot = document.getElementById('cursorDot');
+    document.addEventListener('mousemove', e => { dot.style.left = e.clientX+'px'; dot.style.top = e.clientY+'px'; });
+    document.addEventListener('mouseleave', () => dot.style.opacity='0');
+    document.addEventListener('mouseenter', () => dot.style.opacity='1');
+
+    /* THEME */
+    const themeToggle = document.createElement('button');
+    themeToggle.className = 'theme-toggle';
+    themeToggle.setAttribute('aria-label','Toggle theme');
+    document.body.prepend(themeToggle);
+
+    function setTheme(t) {
+        document.documentElement.setAttribute('data-theme', t);
+        themeToggle.innerHTML = t==='light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+        localStorage.setItem('theme', t);
+    }
+    themeToggle.addEventListener('click', () => setTheme(document.documentElement.getAttribute('data-theme')==='light'?'dark':'light'));
+    setTheme(localStorage.getItem('theme') || 'dark');
+
+    /* SCROLL ANIMATIONS */
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.07 });
+    document.querySelectorAll('#home,#about,#projects,#comments').forEach(s => observer.observe(s));
+
+    /* SCROLL TOP */
+    const scrollTopBtn = document.createElement('div');
+    scrollTopBtn.className = 'scroll-top';
+    scrollTopBtn.setAttribute('role','button');
+    scrollTopBtn.setAttribute('aria-label','Scroll to top');
+    scrollTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+    document.body.appendChild(scrollTopBtn);
+    window.addEventListener('scroll', () => scrollTopBtn.classList.toggle('active', window.pageYOffset>300));
+    scrollTopBtn.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
+
+    /* WHATSAPP */
+    document.querySelector('.card button').addEventListener('click', function() {
+        const ta = document.querySelector('.card textarea');
+        const msg = encodeURIComponent(ta.value.trim());
+        if (msg) { window.open(`https://wa.me/27748361519?text=${msg}`,'_blank'); ta.value=''; }
+        else alert('Please enter a message before sending');
+    });
+
+    /* MENU */
+    function toggleMenu() {
+        document.getElementById("menu").classList.toggle("active");
+        document.body.classList.toggle("menu-open");
+    }
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            document.getElementById("menu").classList.remove("active");
+            document.body.classList.remove("menu-open");
         });
-
-        // Set initial theme
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        themeToggle.innerHTML = savedTheme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-
-        // Scroll animations
-        const sections = document.querySelectorAll('#home, #about, #projects, #comments');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        sections.forEach(section => {
-            observer.observe(section);
-        });
-
-        // Scroll to top button
-        const scrollTopBtn = document.createElement('div');
-        scrollTopBtn.className = 'scroll-top';
-        scrollTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
-        document.body.appendChild(scrollTopBtn);
-
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                scrollTopBtn.classList.add('active');
-            } else {
-                scrollTopBtn.classList.remove('active');
-            }
-        });
-
-        scrollTopBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-
-        // WhatsApp message sending
-        document.querySelector('.card button').addEventListener('click', function() {
-            const textarea = document.querySelector('.card textarea');
-            const message = encodeURIComponent(textarea.value);
-            if (message.trim() !== '') {
-                window.open(`https://wa.me/27748361519?text=${message}`, '_blank');
-                textarea.value = '';
-            } else {
-                alert('Please enter a message before sending');
-            }
-        });
-
-        // Improved menu toggle
-        function toggleMenu() {
-            document.getElementById("menu").classList.toggle("active");
-            document.body.classList.toggle("menu-open");
-        }
-
-        // Close menu when clicking on a link
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                document.getElementById("menu").classList.remove("active");
-                document.body.classList.remove("menu-open");
-            });
-        });
-    </script>
+    });
+</script>
 </body>
 </html>
