@@ -587,8 +587,8 @@
   </section>
 
   <!-- ================= WORK =================
-       Cards are rendered from LOCAL_PROJECTS below (OpenVision), then the
-       GitHub projects are appended after them.
+       The GitHub projects are written out below; cards for LOCAL_PROJECTS
+       (OpenVision) are appended after them by renderProjects().
   -->
   <section class="section" id="work">
     <div class="wrap">
@@ -597,7 +597,7 @@
           <span class="eyebrow">01 / Selected work</span>
           <h2>Things I've <em>shipped</em></h2>
         </div>
-        <a class="section-link" href="https://github.com/AmmaarahJacobs" target="_blank" rel="noopener">All projects on GitHub ↗</a>
+        <a class="section-link" href="https://github.com/AmmaarahJacobs" target="_blank" rel="noopener">All projects on GitHub</a>
       </div>
 
       <div class="project-grid" id="project-grid">
@@ -613,7 +613,7 @@
               layer behind full create, read, update and delete workflows.</p>
             <p class="stack">Java · MySQL · JDBC · OOP</p>
             <div class="project-links">
-              <a href="https://github.com/AmmaarahJacobs/InsuranceManagementSystem" target="_blank" rel="noopener">Source ↗</a>
+              <a href="https://github.com/AmmaarahJacobs/InsuranceManagementSystem" target="_blank" rel="noopener">Source</a>
             </div>
           </div>
         </article>
@@ -629,7 +629,7 @@
               overview for day-to-day stock checks.</p>
             <p class="stack">Java · OOP · File persistence</p>
             <div class="project-links">
-              <a href="https://github.com/AmmaarahJacobs/InventoryManagementSystem" target="_blank" rel="noopener">Source ↗</a>
+              <a href="https://github.com/AmmaarahJacobs/InventoryManagementSystem" target="_blank" rel="noopener">Source</a>
             </div>
           </div>
         </article>
@@ -645,7 +645,7 @@
               across phone, tablet and desktop widths.</p>
             <p class="stack">HTML · CSS · JavaScript</p>
             <div class="project-links">
-              <a href="https://github.com/AmmaarahJacobs/BakeryWebsite" target="_blank" rel="noopener">Source ↗</a>
+              <a href="https://github.com/AmmaarahJacobs/BakeryWebsite" target="_blank" rel="noopener">Source</a>
             </div>
           </div>
         </article>
@@ -661,7 +661,7 @@
               notes without leaving the page.</p>
             <p class="stack">HTML · CSS · JavaScript · DOM</p>
             <div class="project-links">
-              <a href="https://github.com/AmmaarahJacobs/notesApp" target="_blank" rel="noopener">Source ↗</a>
+              <a href="https://github.com/AmmaarahJacobs/notesApp" target="_blank" rel="noopener">Source</a>
             </div>
           </div>
         </article>
@@ -677,7 +677,7 @@
               hold up at small viewports.</p>
             <p class="stack">HTML5 · CSS3 · JavaScript</p>
             <div class="project-links">
-              <a href="https://github.com/AmmaarahJacobs/loginForm" target="_blank" rel="noopener">Source ↗</a>
+              <a href="https://github.com/AmmaarahJacobs/loginForm" target="_blank" rel="noopener">Source</a>
             </div>
           </div>
         </article>
@@ -693,7 +693,7 @@
               detection and scoring, structured around object-oriented design.</p>
             <p class="stack">Java · OOP · Game loop</p>
             <div class="project-links">
-              <a href="https://github.com/AmmaarahJacobs/Pacman" target="_blank" rel="noopener">Source ↗</a>
+              <a href="https://github.com/AmmaarahJacobs/Pacman" target="_blank" rel="noopener">Source</a>
             </div>
           </div>
         </article>
@@ -927,8 +927,8 @@
      cover    path to the image, or "" to show initials
      links    array of { label, href }. Empty href hides the link.
 
-   Local projects render first, and the whole section hides itself
-   if the list is empty.
+   Local projects render after the hand-written cards in the grid, in
+   array order, and the whole section hides itself if the list is empty.
    ============================================================ */
 const LOCAL_PROJECTS = [
   {
@@ -938,7 +938,7 @@ const LOCAL_PROJECTS = [
     category: "In development",
     summary: "A visually impaired accessibility app I'm developing and building end to end, from the interface through to the implementation. The full case study, screenshots and technical write-up will be published here as the build progresses.",
     stack: ["Design", "Front end", "In development", "Code"],
-    cover: "",   // e.g. "projects/openvision/cover.jpg"
+    cover: "projects/openvision/cover.webp",
     links: [
       { label: "Case study", href: "" },
       { label: "Repository", href: "" }
@@ -954,7 +954,7 @@ const LOCAL_PROJECTS = [
   const entries = (LOCAL_PROJECTS || []).filter(function (p) { return p && p.title; });
   if (entries.length === 0) return;
 
-  entries.slice().reverse().forEach(function (project, i) {
+  entries.forEach(function (project, i) {
     const card = document.createElement('article');
     card.className = 'project-card';
 
@@ -1018,7 +1018,7 @@ const LOCAL_PROJECTS = [
       links.forEach(function (l) {
         const a = document.createElement('a');
         a.href = l.href;
-        a.textContent = l.label + ' ↗';
+        a.textContent = l.label;
         if (/^https?:/i.test(l.href)) { a.target = '_blank'; a.rel = 'noopener'; }
         row.appendChild(a);
       });
@@ -1028,7 +1028,7 @@ const LOCAL_PROJECTS = [
     card.appendChild(media);
     card.appendChild(meta);
     card.appendChild(body);
-    grid.insertBefore(card, grid.firstChild);
+    grid.appendChild(card);
   });
 
   function initials(title) {

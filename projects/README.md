@@ -7,7 +7,7 @@ lists them first in the **Selected work** grid, which is built from the
 ## Adding a project
 
 1. Create a folder named after the project, e.g. `projects/openvision/`.
-2. Drop in a cover image: `cover.jpg` (or `.png`), roughly 1600×1200 — a 4:3
+2. Drop in a cover image: `cover.jpg` (or `.png`, `.webp`), roughly 1600×1200 — a 4:3
    screenshot or mockup works best. Without one, the card shows the project's
    initials instead, so an image is optional.
 3. Add an object to `LOCAL_PROJECTS` in `index.html`:

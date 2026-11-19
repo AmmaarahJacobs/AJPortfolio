@@ -25,6 +25,7 @@ Status: in progress (2026)
 
 ## Images
 
-Add a `cover.jpg` here (about 1600×1000) and put extra screenshots in
-`screens/`. Then set `cover: "projects/openvision/cover.jpg"` on the
-OpenVision entry in `index.html` and add any link you want shown.
+`cover.webp` (the logo) is already here and wired up as the card's image.
+Extra screenshots go in `screens/`. The card is set by the `cover` field on
+the OpenVision entry in `index.html`, so swapping the cover is just a file
+replacement; add any link you want shown in `links`.
